@@ -1,0 +1,75 @@
+@import "tailwindcss";
+
+/* Design tokens: a warm neutral scale with a red accent, defined for light and dark, exposed to Tailwind below.
+   A host that uses the library changes the look by redefining these variables. */
+:root {
+  --canvas: #f5f4f1;
+  --surface: #ffffff;
+  --surface-2: #eceae6;
+  --line: #dcd8d2;
+  --line-strong: #bdb6ad;
+  --ink: #1c1a17;
+  --ink-2: #57534c;
+  --ink-3: #8f887f;
+  --accent: #d90115;
+  --accent-soft: #fde3e5;
+  --accent-ink: #ffffff;
+  --bad: #9f1239;
+  --bad-soft: #ffe4e6;
+  --shadow: 0 1px 2px rgb(28 26 23 / 0.06), 0 4px 16px rgb(28 26 23 / 0.05);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --canvas: #161412;
+    --surface: #1e1b18;
+    --surface-2: #28241f;
+    --line: #353028;
+    --line-strong: #4d463d;
+    --ink: #ede9e3;
+    --ink-2: #b8b0a6;
+    --ink-3: #7d756b;
+    --accent: #ff5a66;
+    --accent-soft: #4a1218;
+    --accent-ink: #1a0608;
+    --bad: #fb7185;
+    --bad-soft: #701a2b;
+    --shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 6px 20px rgb(0 0 0 / 0.35);
+  }
+}
+
+:root[data-theme="dark"] {
+  --canvas: #161412;
+  --surface: #1e1b18;
+  --surface-2: #28241f;
+  --line: #353028;
+  --line-strong: #4d463d;
+  --ink: #ede9e3;
+  --ink-2: #b8b0a6;
+  --ink-3: #7d756b;
+  --accent: #ff5a66;
+  --accent-soft: #4a1218;
+  --accent-ink: #1a0608;
+  --bad: #fb7185;
+  --bad-soft: #701a2b;
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 6px 20px rgb(0 0 0 / 0.35);
+}
+
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-ink: var(--accent-ink);
+  --color-bad: var(--bad);
+  --color-bad-soft: var(--bad-soft);
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  --shadow-card: var(--shadow);
+}
