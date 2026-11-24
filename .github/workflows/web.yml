@@ -1,0 +1,59 @@
+name: Web
+
+# Checks the sources and builds the editor for the web: the library (an npm package, React components) and the
+# standalone application (static files to put on any web server).
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: web-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # attaches the builds to the release of a tag
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+
+      - name: Build the library
+        run: npm run build:lib
+      - name: Pack the library
+        run: npm pack
+      - uses: actions/upload-artifact@v4
+        with:
+          name: tiny-editor-lib
+          path: tiny-editor-*.tgz
+          if-no-files-found: error
+
+      - name: Build the standalone application
+        run: npm run build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: tiny-editor-web
+          path: dist
+          if-no-files-found: error
+
+      - name: Attach to the release
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          (cd dist && zip -qr ../tiny-editor-web.zip .)
+          gh release create "$GITHUB_REF_NAME" --generate-notes || true
+          gh release upload "$GITHUB_REF_NAME" tiny-editor-*.tgz tiny-editor-web.zip --clobber
